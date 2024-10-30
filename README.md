@@ -10,13 +10,29 @@ This project is the final assessment for the Squadra New Thinkers Bootcamp. It c
 
 ## Running the project
 
-To run the project, you need to have Docker installed on your machine. Then, you can run the following command:
+To run the project, follow these steps:
+
+1. Clone the repository and enter the project directory:
 
 ```bash
-docker-compose up
+git clone git@github.com:clintonbrito/address-management-api.git
+cd address-management-api
 ```
 
-This command will start the Oracle database and the application. The application will be available at `http://localhost:8080`.
+2. Now you need to start the Oracle database. To do this, run the following command:
+
+```bash
+docker-compose up -d
+```
+
+3. Now you can start the application. To do this, run the following command:
+
+```bash
+mvn spring-boot:run
+```
+
+> [!NOTE]
+> The application will be available at `http://localhost:8080`.
 
 ## API Documentation
 
