@@ -1,0 +1,15 @@
+#spring:
+#  application:
+#    name: squadraproject
+#  datasource:
+#    url: jdbc:oracle:thin:@//localhost:1521/XE
+#    username: C##JAVA
+#    password: java
+#    driver-class-name: oracle.jdbc.OracleDriver
+#  jpa:
+#    database-platform: org.hibernate.dialect.Oracle10gDialect
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate.format_sql: true
