@@ -9,9 +9,10 @@ import lombok.Data;
 public class Uf {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGen")
+    @SequenceGenerator(name = "mySeqGen", sequenceName = "my_sequence_name", allocationSize = 1)
     @Column(name = "codigo_uf")
-    private Long codigoUf;
+    private Long codigoUF;
 
     @Column(length = 2, nullable = false)
     private String sigla;
