@@ -25,22 +25,22 @@ public class UfValidator {
     }
 
     private boolean existeUfNoBanco(Uf uf){
-        Optional<Uf> ufEncontrada = ufRepository.findByCodigoUf(uf.getCodigoUf());
+        Optional<Uf> ufEncontrada = ufRepository.findBySigla(uf.getSigla());
 
         if(uf.getCodigoUf() == null) {
             return ufEncontrada.isPresent();
         }
 
         return ufEncontrada
-                .map(Uf::getCodigoUf)
+                .map(Uf::getSigla)
                 .stream()
-                .anyMatch(id -> !id.equals(uf.getCodigoUf()));
+                .anyMatch(id -> !id.equals(uf.getSigla()));
     }
 
     private boolean existeEstadoNoBanco(Uf uf) {
         Optional<Uf> estadoEncontrado = ufRepository.findByNome(uf.getNome());
 
-        if(uf.getNome() == null) {
+        if(uf.getCodigoUf() == null) {
             return estadoEncontrado.isPresent();
         }
 
