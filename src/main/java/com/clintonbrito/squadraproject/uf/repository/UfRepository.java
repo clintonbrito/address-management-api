@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface UfRepository extends JpaRepository<Uf, Long> {
     Optional<Uf> findByNome(String nome);
 
-    Optional<Uf> findByCodigoUF(Long codigoUF);
+    Optional<Uf> findByCodigoUf(Long codigoUf);
 }

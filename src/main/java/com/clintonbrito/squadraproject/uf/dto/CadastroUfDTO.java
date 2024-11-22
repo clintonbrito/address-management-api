@@ -1,6 +1,7 @@
 package com.clintonbrito.squadraproject.uf.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CadastroUfDTO(
         @NotBlank(message = "Campo obrigatório")
@@ -9,7 +10,7 @@ public record CadastroUfDTO(
         @NotBlank(message = "Campo obrigatório")
         String nome,
 
-        @NotBlank(message = "Campo obrigatório")
+        @NotNull(message = "Campo obrigatório")
         Integer status
 ) {
 }

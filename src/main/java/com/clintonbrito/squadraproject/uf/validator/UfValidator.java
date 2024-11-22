@@ -16,7 +16,7 @@ public class UfValidator {
 
     public void validar(Uf uf) {
         if(existeUfNoBanco(uf)) {
-            throw new RegistroDuplicadoException("UF já cadastrada. Favor informar uma nova 'UF'.");
+            throw new RegistroDuplicadoException("UF já cadastrada. Favor informar uma nova 'Sigla'.");
         }
 
         if(existeEstadoNoBanco(uf)) {
@@ -25,20 +25,20 @@ public class UfValidator {
     }
 
     private boolean existeUfNoBanco(Uf uf){
-        Optional<Uf> ufEncontrada = ufRepository.findByCodigoUF((uf.getCodigoUF()));
+        Optional<Uf> ufEncontrada = ufRepository.findByCodigoUf(uf.getCodigoUf());
 
-        if(uf.getCodigoUF() == null) {
+        if(uf.getCodigoUf() == null) {
             return ufEncontrada.isPresent();
         }
 
         return ufEncontrada
-                .map(Uf::getCodigoUF)
+                .map(Uf::getCodigoUf)
                 .stream()
-                .anyMatch(id -> !id.equals(uf.getCodigoUF()));
+                .anyMatch(id -> !id.equals(uf.getCodigoUf()));
     }
 
     private boolean existeEstadoNoBanco(Uf uf) {
-        Optional<Uf> estadoEncontrado = ufRepository.findByNome((uf.getNome()));
+        Optional<Uf> estadoEncontrado = ufRepository.findByNome(uf.getNome());
 
         if(uf.getNome() == null) {
             return estadoEncontrado.isPresent();

@@ -1,9 +1,10 @@
 package com.clintonbrito.squadraproject.uf.controller;
 
 import com.clintonbrito.squadraproject.uf.dto.CadastroUfDTO;
+import com.clintonbrito.squadraproject.uf.mapper.UfMapper;
 import com.clintonbrito.squadraproject.uf.model.Uf;
 import com.clintonbrito.squadraproject.uf.service.UfService;
-import com.clintonbrito.squadraproject.uf.mapper.UfMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class UfController {
     private final UfMapper ufMapper;
 
     @PostMapping
-    public ResponseEntity<List<Uf>> salvar(@RequestBody CadastroUfDTO dto) {
+    public ResponseEntity<List<Uf>> salvar(@RequestBody @Valid CadastroUfDTO dto) {
         Uf uf = ufMapper.toEntity(dto);
         List<Uf> ufSalva = ufService.salvar(uf);
         return ResponseEntity.ok(ufSalva);
