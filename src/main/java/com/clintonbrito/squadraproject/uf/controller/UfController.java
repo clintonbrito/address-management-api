@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.uf.controller;
 
+import com.clintonbrito.squadraproject.uf.dto.AtualizarUfDTO;
 import com.clintonbrito.squadraproject.uf.dto.CadastroUfDTO;
 import com.clintonbrito.squadraproject.uf.mapper.UfMapper;
 import com.clintonbrito.squadraproject.uf.model.Uf;
@@ -47,6 +48,13 @@ public class UfController {
         List<Uf> ufs = ufService.listarUfs();
 
         return ResponseEntity.ok(ufs);
+    }
+
+    @PutMapping
+    public ResponseEntity<List<Uf>> atualizar(@RequestBody @Valid AtualizarUfDTO dto) {
+        Uf uf = ufMapper.toEntity(dto);
+        List<Uf> ufSalva = ufService.atualizar(uf);
+        return ResponseEntity.ok(ufSalva);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.uf.mapper;
 
+import com.clintonbrito.squadraproject.uf.dto.AtualizarUfDTO;
 import com.clintonbrito.squadraproject.uf.dto.CadastroUfDTO;
 import com.clintonbrito.squadraproject.uf.model.Uf;
 import org.mapstruct.Mapper;
@@ -10,5 +11,7 @@ public interface UfMapper {
 
     @Mapping(target = "codigoUf", ignore = true)
     Uf toEntity(CadastroUfDTO dto);
+
+    Uf toEntity(AtualizarUfDTO dto);
 
 }

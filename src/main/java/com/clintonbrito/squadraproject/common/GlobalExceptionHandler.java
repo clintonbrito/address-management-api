@@ -2,6 +2,7 @@ package com.clintonbrito.squadraproject.common;
 
 import com.clintonbrito.squadraproject.uf.exception.OperacaoNaoPermitidaException;
 import com.clintonbrito.squadraproject.uf.exception.RegistroDuplicadoException;
+import com.clintonbrito.squadraproject.uf.exception.RegistroNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +34,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RegistroDuplicadoException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErroResposta handleRegistroDuplicadoException(RegistroDuplicadoException e) {
+        return ErroResposta.conflito(e.getMessage());
+    }
+
+    @ExceptionHandler(RegistroNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErroResposta handleRegistroNaoEncontradoException(RegistroNaoEncontradoException e) {
         return ErroResposta.conflito(e.getMessage());
     }
 

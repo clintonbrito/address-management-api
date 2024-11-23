@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.uf.service;
 
+import com.clintonbrito.squadraproject.uf.exception.RegistroNaoEncontradoException;
 import com.clintonbrito.squadraproject.uf.model.Uf;
 import com.clintonbrito.squadraproject.uf.repository.UfRepository;
 import com.clintonbrito.squadraproject.uf.validator.UfValidator;
@@ -32,4 +33,14 @@ public class UfService {
     public List<Uf> listarUfs() {
         return ufRepository.findAll();
     }
+
+    public List<Uf> atualizar(Uf uf) {
+        ufRepository.findById(uf.getCodigoUf())
+                .orElseThrow(() -> new RegistroNaoEncontradoException("UF não encontrada. Favor informar um 'codigoUf' válido."));
+
+        ufValidator.validar(uf);
+        ufRepository.save(uf);
+        return ufRepository.findAll();
+    }
+
 }
