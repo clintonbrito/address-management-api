@@ -1,8 +1,8 @@
 package com.clintonbrito.squadraproject.common;
 
-import com.clintonbrito.squadraproject.uf.exception.OperacaoNaoPermitidaException;
-import com.clintonbrito.squadraproject.uf.exception.RegistroDuplicadoException;
-import com.clintonbrito.squadraproject.uf.exception.RegistroNaoEncontradoException;
+import com.clintonbrito.squadraproject.common.exception.OperacaoNaoPermitidaException;
+import com.clintonbrito.squadraproject.common.exception.RegistroDuplicadoException;
+import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

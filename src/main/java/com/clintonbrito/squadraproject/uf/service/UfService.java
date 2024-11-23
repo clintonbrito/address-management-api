@@ -1,6 +1,6 @@
 package com.clintonbrito.squadraproject.uf.service;
 
-import com.clintonbrito.squadraproject.uf.exception.RegistroNaoEncontradoException;
+import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
 import com.clintonbrito.squadraproject.uf.model.Uf;
 import com.clintonbrito.squadraproject.uf.repository.UfRepository;
 import com.clintonbrito.squadraproject.uf.validator.UfValidator;

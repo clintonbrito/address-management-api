@@ -1,6 +1,6 @@
 package com.clintonbrito.squadraproject.uf.validator;
 
-import com.clintonbrito.squadraproject.uf.exception.RegistroDuplicadoException;
+import com.clintonbrito.squadraproject.common.exception.RegistroDuplicadoException;
 import com.clintonbrito.squadraproject.uf.model.Uf;
 import com.clintonbrito.squadraproject.uf.repository.UfRepository;
 import lombok.RequiredArgsConstructor;

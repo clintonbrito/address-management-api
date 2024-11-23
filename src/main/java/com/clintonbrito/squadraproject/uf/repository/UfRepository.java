@@ -14,4 +14,6 @@ public interface UfRepository extends JpaRepository<Uf, Long> {
     List<Uf> findByStatus(Integer status);
 
     Uf findByCodigoUfOrSiglaOrNome(Long codigoUf, String sigla, String nome);
+
+    boolean existsByCodigoUf(Long codigoUf);
 }
