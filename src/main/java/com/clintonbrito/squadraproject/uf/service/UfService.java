@@ -21,4 +21,15 @@ public class UfService {
         return ufRepository.findAll();
     }
 
+    public List<Uf> pesquisarPorStatus(Integer status) {
+        return ufRepository.findByStatus(status);
+    }
+
+    public Uf obterUf(Long codigoUf, String sigla, String nome) {
+        return ufRepository.findByCodigoUfOrSiglaOrNome(codigoUf, sigla, nome);
+    }
+
+    public List<Uf> listarUfs() {
+        return ufRepository.findAll();
+    }
 }
