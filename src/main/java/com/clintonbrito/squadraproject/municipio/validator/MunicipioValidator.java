@@ -16,6 +16,10 @@ public class MunicipioValidator {
     private final UfRepository ufRepository;
 
     public void validar(Municipio municipio) {
+        if (municipio.getUf() == null) {
+            throw new RegistroNaoEncontradoException("UF não encontrada. Favor informar uma UF válida.");
+        }
+
         validarCodigoUf(municipio.getUf().getCodigoUf());
         validarNomeDuplicado(municipio);
     }
@@ -28,7 +32,7 @@ public class MunicipioValidator {
 
     private void validarNomeDuplicado(Municipio municipio) {
         boolean duplicado = municipioRepository.findByNome(municipio.getNome())
-                .filter(m -> m.getCodigoMunicipio().equals(municipio.getCodigoMunicipio()))
+                .filter(m -> !m.getCodigoMunicipio().equals(municipio.getCodigoMunicipio()))
                 .isPresent();
 
         if(duplicado) {

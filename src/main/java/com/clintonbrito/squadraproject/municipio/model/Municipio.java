@@ -23,10 +23,7 @@ public class Municipio implements Serializable {
     @Column(length = 1, nullable = false)
     private Integer status;
 
-//    @Column(name = "codigo_uf", insertable = false, updatable = false)
-//    private Long codigoUf;
-
     @ManyToOne
-    @JoinColumn(name = "codigo_uf", referencedColumnName = "codigo_uf")
+    @JoinColumn(name = "codigo_uf")
     private Uf uf;
 }

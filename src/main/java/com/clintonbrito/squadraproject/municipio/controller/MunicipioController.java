@@ -2,6 +2,7 @@ package com.clintonbrito.squadraproject.municipio.controller;
 
 import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
+import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
 import com.clintonbrito.squadraproject.municipio.service.MunicipioService;
@@ -21,9 +22,9 @@ public class MunicipioController {
     private final MunicipioMapper municipioMapper;
 
     @PostMapping
-    public ResponseEntity<List<Municipio>> salvar(@RequestBody @Valid CadastroMunicipioDTO dto) {
+    public ResponseEntity<List<RespostaMunicipioDTO>> salvar(@RequestBody @Valid CadastroMunicipioDTO dto) {
         Municipio municipio = municipioMapper.toEntity(dto);
-        List<Municipio> municipioSalvo = municipioService.salvar(municipio);
+        List<RespostaMunicipioDTO> municipioSalvo = municipioService.salvar(municipio);
         return ResponseEntity.ok(municipioSalvo);
     }
 

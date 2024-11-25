@@ -1,6 +1,8 @@
 package com.clintonbrito.squadraproject.municipio.service;
 
 import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
+import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
+import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
 import com.clintonbrito.squadraproject.municipio.repository.MunicipioRepository;
 import com.clintonbrito.squadraproject.municipio.validator.MunicipioValidator;
@@ -15,11 +17,13 @@ public class MunicipioService {
 
     private final MunicipioRepository municipioRepository;
     private final MunicipioValidator municipioValidator;
+    private final MunicipioMapper municipioMapper;
 
-    public List<Municipio> salvar(Municipio municipio) {
+    public List<RespostaMunicipioDTO> salvar(Municipio municipio) {
         municipioValidator.validar(municipio);
         municipioRepository.save(municipio);
-        return municipioRepository.findAll();
+        List<Municipio> municipios = municipioRepository.findAll();
+        return municipioMapper.toResponseDTOList(municipios);
     }
 
 //    public List<Municipio> pesquisarPorStatus(Integer status) {

@@ -2,16 +2,31 @@ package com.clintonbrito.squadraproject.municipio.mapper;
 
 import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
+import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
+import com.clintonbrito.squadraproject.uf.mapper.UfMapper;
+import com.clintonbrito.squadraproject.uf.repository.UfRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring")
-public interface MunicipioMapper {
+import java.util.List;
 
-    @Mapping(target = "codigoMunicipio", ignore = true)
-    Municipio toEntity(CadastroMunicipioDTO dto);
+@Mapper(componentModel = "spring", uses = UfMapper.class)
+public abstract class MunicipioMapper {
 
-    Municipio toEntity(AtualizarMunicipioDTO dto);
+    @Autowired
+    UfRepository ufRepository;
+
+//    @Mapping(target = "codigoMunicipio", ignore = true)
+    @Mapping(target = "uf", expression = "java( ufRepository.findById(dto.codigoUf()).orElse(null) )")
+    public abstract Municipio toEntity(CadastroMunicipioDTO dto);
+
+    @Mapping(target = "codigoUf", source = "uf.codigoUf")
+    public abstract RespostaMunicipioDTO toResponseDTO(Municipio municipio);
+
+    public abstract List<RespostaMunicipioDTO> toResponseDTOList(List<Municipio> municipios);
+
+//    public abstract Municipio toEntity(AtualizarMunicipioDTO dto);
 
 }
