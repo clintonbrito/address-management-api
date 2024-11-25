@@ -1,6 +1,5 @@
 package com.clintonbrito.squadraproject.municipio.mapper;
 
-import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
@@ -11,6 +10,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring", uses = UfMapper.class)
 public abstract class MunicipioMapper {

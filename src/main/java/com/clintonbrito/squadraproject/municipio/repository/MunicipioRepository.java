@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.municipio.repository;
 
+import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +12,7 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Long> {
 
     List<Municipio> findByStatus(Integer status);
 
-//    Municipio findByCodigoUfOrSiglaOrNome(Long codigoUf, String sigla, String nome);
+    Municipio findByCodigoMunicipio(Long codigoMunicipio);
+
+    List<Municipio> findByUf_CodigoUf(Long ufCodigoUf);
 }

@@ -1,6 +1,5 @@
 package com.clintonbrito.squadraproject.municipio.controller;
 
-import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
@@ -28,28 +27,38 @@ public class MunicipioController {
         return ResponseEntity.ok(municipioSalvo);
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> pesquisar(
-//            @RequestParam(value = "codigoUf", required = false) Long codigoUf,
-//            @RequestParam(value = "sigla", required = false) String sigla,
-//            @RequestParam(value = "nome", required = false) String nome,
-//            @RequestParam(value = "status", required = false) Integer status
-//    ) {
-//
-//        if(codigoUf == null && sigla == null && nome == null && status != null) {
-//            List<Municipio> municipios = municipioService.pesquisarPorStatus(status);
-//            return ResponseEntity.ok(municipios);
-//        }
-//
-//        if(codigoUf != null || sigla  != null || nome  != null) {
-//            Municipio municipio = municipioService.obterUf(codigoUf, sigla, nome);
-//            return ResponseEntity.ok(municipio);
-//        }
-//
-//        List<Municipio> municipios = municipioService.listarUfs();
-//
-//        return ResponseEntity.ok(municipios);
-//    }
+    @GetMapping
+    public ResponseEntity<?> pesquisar(
+            @RequestParam(value = "codigoMunicipio", required = false) Long codigoMunicipio,
+            @RequestParam(value = "codigoUf", required = false) Long codigoUf,
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "status", required = false) Integer status
+    ) {
+
+        if(codigoMunicipio == null && codigoUf == null && nome == null && status != null) {
+            List<RespostaMunicipioDTO> municipios = municipioService.pesquisarPorStatus(status);
+            return ResponseEntity.ok(municipios);
+        }
+
+        if(codigoMunicipio == null && codigoUf != null && nome == null && status == null) {
+            List<RespostaMunicipioDTO> municipios = municipioService.pesquisarPorCodigoUf(codigoUf);
+            return ResponseEntity.ok(municipios);
+        }
+
+        if(codigoMunicipio == null && codigoUf == null && nome != null && status == null) {
+            List<RespostaMunicipioDTO> municipios = municipioService.pesquisarPorNome(nome);
+            return ResponseEntity.ok(municipios);
+        }
+
+        if(codigoMunicipio  != null) {
+            RespostaMunicipioDTO municipio = municipioService.obterMunicipio(codigoMunicipio);
+            return ResponseEntity.ok(municipio);
+        }
+
+        List<RespostaMunicipioDTO> municipios = municipioService.listarMunicipios();
+
+        return ResponseEntity.ok(municipios);
+    }
 
 //    @PutMapping
 //    public ResponseEntity<List<Municipio>> atualizar(@RequestBody @Valid AtualizarMunicipioDTO dto) {
