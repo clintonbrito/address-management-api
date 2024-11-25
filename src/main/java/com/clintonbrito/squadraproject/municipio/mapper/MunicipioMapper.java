@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.municipio.mapper;
 
+import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
@@ -10,7 +11,6 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring", uses = UfMapper.class)
 public abstract class MunicipioMapper {
@@ -18,7 +18,6 @@ public abstract class MunicipioMapper {
     @Autowired
     UfRepository ufRepository;
 
-//    @Mapping(target = "codigoMunicipio", ignore = true)
     @Mapping(target = "uf", expression = "java( ufRepository.findById(dto.codigoUf()).orElse(null) )")
     public abstract Municipio toEntity(CadastroMunicipioDTO dto);
 
@@ -27,6 +26,7 @@ public abstract class MunicipioMapper {
 
     public abstract List<RespostaMunicipioDTO> toResponseDTOList(List<Municipio> municipios);
 
-//    public abstract Municipio toEntity(AtualizarMunicipioDTO dto);
+    @Mapping(target = "uf", expression = "java( ufRepository.findById(dto.codigoUf()).orElse(null) )")
+    public abstract Municipio toEntity(AtualizarMunicipioDTO dto);
 
 }

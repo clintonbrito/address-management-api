@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.municipio.controller;
 
+import com.clintonbrito.squadraproject.municipio.dto.AtualizarMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.CadastroMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
@@ -60,11 +61,11 @@ public class MunicipioController {
         return ResponseEntity.ok(municipios);
     }
 
-//    @PutMapping
-//    public ResponseEntity<List<Municipio>> atualizar(@RequestBody @Valid AtualizarMunicipioDTO dto) {
-//        Municipio municipio = municipioMapper.toEntity(dto);
-//        List<Municipio> municipioSalva = municipioService.atualizar(municipio);
-//        return ResponseEntity.ok(municipioSalva);
-//    }
+    @PutMapping
+    public ResponseEntity<List<RespostaMunicipioDTO>> atualizar(@RequestBody @Valid AtualizarMunicipioDTO dto) {
+        Municipio municipio = municipioMapper.toEntity(dto);
+        List<RespostaMunicipioDTO> municipioSalva = municipioService.atualizar(municipio);
+        return ResponseEntity.ok(municipioSalva);
+    }
 
 }

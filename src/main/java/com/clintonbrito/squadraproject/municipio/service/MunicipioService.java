@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.municipio.service;
 
+import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
 import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
@@ -51,15 +52,16 @@ public class MunicipioService {
         List<Municipio> municipios = municipioRepository.findAll();
         return municipioMapper.toResponseDTOList(municipios);
     }
-//
-//    public List<Municipio> atualizar(Municipio municipio) {
-//        municipioRepository.findById(municipio.getCodigoMunicipio())
-//                .orElseThrow(() -> new RegistroNaoEncontradoException("UF não encontrada. Favor informar um 'codigoUf' válido."));
-//
-//        municipioValidator.validar(municipio);
-//        municipioRepository.save(municipio);
-//        return municipioRepository.findAll();
-//    }
+
+    public List<RespostaMunicipioDTO> atualizar(Municipio municipio) {
+        municipioRepository.findById(municipio.getCodigoMunicipio())
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Município não encontrado. Favor informar um 'codigoMunicipio' válido."));
+
+        municipioValidator.validar(municipio);
+        municipioRepository.save(municipio);
+        List<Municipio> municipios = municipioRepository.findAll();
+        return municipioMapper.toResponseDTOList(municipios);
+    }
 
     private List<Municipio> convertOptionalToList(Optional<Municipio> optionalMunicipio) {
         return optionalMunicipio.map(List::of).orElseGet(List::of);
