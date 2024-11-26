@@ -4,10 +4,10 @@ import jakarta.validation.constraints.*;
 
 public record AtualizarBairroDTO(
         @NotNull(message = "Campo obrigatório.")
-        Long codigoMunicipio,
+        Long codigoBairro,
 
         @NotNull(message = "Campo obrigatório.")
-        Long codigoUf,
+        Long codigoMunicipio,
 
         @NotBlank(message = "Campo obrigatório.")
         @Size(min = 3, max = 60, message = "O nome deve conter entre {min} e {max} caracteres")

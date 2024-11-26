@@ -53,18 +53,18 @@ public class BairroService {
         return bairroMapper.toResponseDTOList(bairros);
     }
 
-//    public List<RespostaBairroDTO> atualizar(Bairro bairro) {
-//        bairroRepository.findById(bairro.getCodigoBairro())
-//                .orElseThrow(() -> new RegistroNaoEncontradoException("Bairro não encontrado. Favor informar um 'codigoBairro' válido."));
-//
-//        bairroValidator.validar(bairro);
-//        bairroRepository.save(bairro);
-//        List<Bairro> bairros = bairroRepository.findAll();
-//        return bairroMapper.toResponseDTOList(bairros);
-//    }
+    public List<RespostaBairroDTO> atualizar(Bairro bairro) {
+        bairroRepository.findById(bairro.getCodigoBairro())
+                .orElseThrow(() -> new RegistroNaoEncontradoException("Bairro não encontrado. Favor informar um 'codigoBairro' válido."));
 
-    private List<Bairro> convertOptionalToList(Optional<Bairro> optionalMunicipio) {
-        return optionalMunicipio.map(List::of).orElseGet(List::of);
+        bairroValidator.validar(bairro);
+        bairroRepository.save(bairro);
+        List<Bairro> bairros = bairroRepository.findAll();
+        return bairroMapper.toResponseDTOList(bairros);
+    }
+
+    private List<Bairro> convertOptionalToList(Optional<Bairro> optionalBairro) {
+        return optionalBairro.map(List::of).orElseGet(List::of);
     }
 
 }

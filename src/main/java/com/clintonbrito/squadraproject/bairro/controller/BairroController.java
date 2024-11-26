@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.bairro.controller;
 
+import com.clintonbrito.squadraproject.bairro.dto.AtualizarBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.CadastroBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.RespostaBairroDTO;
 import com.clintonbrito.squadraproject.bairro.mapper.BairroMapper;
@@ -59,12 +60,12 @@ public class BairroController {
 
         return ResponseEntity.ok(bairros);
     }
-//
-//    @PutMapping
-//    public ResponseEntity<List<RespostaBairroDTO>> atualizar(@RequestBody @Valid AtualizarBairroDTO dto) {
-//        Bairro bairro = bairroMapper.toEntity(dto);
-//        List<RespostaBairroDTO> municipioSalva = bairroService.atualizar(bairro);
-//        return ResponseEntity.ok(municipioSalva);
-//    }
+
+    @PutMapping
+    public ResponseEntity<List<RespostaBairroDTO>> atualizar(@RequestBody @Valid AtualizarBairroDTO dto) {
+        Bairro bairro = bairroMapper.toEntity(dto);
+        List<RespostaBairroDTO> bairroSalvo = bairroService.atualizar(bairro);
+        return ResponseEntity.ok(bairroSalvo);
+    }
 
 }

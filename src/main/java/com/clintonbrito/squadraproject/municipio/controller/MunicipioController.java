@@ -64,8 +64,8 @@ public class MunicipioController {
     @PutMapping
     public ResponseEntity<List<RespostaMunicipioDTO>> atualizar(@RequestBody @Valid AtualizarMunicipioDTO dto) {
         Municipio municipio = municipioMapper.toEntity(dto);
-        List<RespostaMunicipioDTO> municipioSalva = municipioService.atualizar(municipio);
-        return ResponseEntity.ok(municipioSalva);
+        List<RespostaMunicipioDTO> municipioSalvo = municipioService.atualizar(municipio);
+        return ResponseEntity.ok(municipioSalvo);
     }
 
 }

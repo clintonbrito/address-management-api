@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.bairro.mapper;
 
+import com.clintonbrito.squadraproject.bairro.dto.AtualizarBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.CadastroBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.RespostaBairroDTO;
 import com.clintonbrito.squadraproject.bairro.model.Bairro;
@@ -25,7 +26,7 @@ public abstract class BairroMapper {
 
     public abstract List<RespostaBairroDTO> toResponseDTOList(List<Bairro> bairros);
 
-//    @Mapping(target = "uf", expression = "java( ufRepository.findById(dto.codigoMunicipio()).orElse(null) )")
-//    public abstract Bairro toEntity(AtualizarBairroDTO dto);
+    @Mapping(target = "municipio", expression = "java( municipioRepository.findById(dto.codigoMunicipio()).orElse(null) )")
+    public abstract Bairro toEntity(AtualizarBairroDTO dto);
 
 }
