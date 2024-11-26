@@ -36,7 +36,7 @@ public class MunicipioValidator {
                 .isPresent();
 
         if(duplicado) {
-            throw new RegistroDuplicadoException("Nome do Municipio já cadastrado. Favor informar um novo 'nome'.");
+            throw new RegistroDuplicadoException("Nome do Município já cadastrado. Favor informar um novo 'nome'.");
         }
     }
 }

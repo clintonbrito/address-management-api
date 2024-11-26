@@ -14,4 +14,6 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Long> {
     Municipio findByCodigoMunicipio(Long codigoMunicipio);
 
     List<Municipio> findByUf_CodigoUf(Long ufCodigoUf);
+
+    boolean existsByCodigoMunicipio(Long codigoMunicipio);
 }
