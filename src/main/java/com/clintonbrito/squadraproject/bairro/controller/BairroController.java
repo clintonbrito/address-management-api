@@ -1,6 +1,5 @@
 package com.clintonbrito.squadraproject.bairro.controller;
 
-import com.clintonbrito.squadraproject.bairro.dto.AtualizarBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.CadastroBairroDTO;
 import com.clintonbrito.squadraproject.bairro.dto.RespostaBairroDTO;
 import com.clintonbrito.squadraproject.bairro.mapper.BairroMapper;
@@ -28,38 +27,38 @@ public class BairroController {
         return ResponseEntity.ok(bairroSalvo);
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> pesquisar(
-//            @RequestParam(value = "codigoMunicipio", required = false) Long codigoMunicipio,
-//            @RequestParam(value = "codigoUf", required = false) Long codigoUf,
-//            @RequestParam(value = "nome", required = false) String nome,
-//            @RequestParam(value = "status", required = false) Integer status
-//    ) {
-//
-//        if(codigoMunicipio == null && codigoUf == null && nome == null && status != null) {
-//            List<RespostaBairroDTO> municipios = bairroService.pesquisarPorStatus(status);
-//            return ResponseEntity.ok(municipios);
-//        }
-//
-//        if(codigoMunicipio == null && codigoUf != null && nome == null && status == null) {
-//            List<RespostaBairroDTO> municipios = bairroService.pesquisarPorCodigoUf(codigoUf);
-//            return ResponseEntity.ok(municipios);
-//        }
-//
-//        if(codigoMunicipio == null && codigoUf == null && nome != null && status == null) {
-//            List<RespostaBairroDTO> municipios = bairroService.pesquisarPorNome(nome);
-//            return ResponseEntity.ok(municipios);
-//        }
-//
-//        if(codigoMunicipio  != null) {
-//            RespostaBairroDTO municipio = bairroService.obterMunicipio(codigoMunicipio);
-//            return ResponseEntity.ok(municipio);
-//        }
-//
-//        List<RespostaBairroDTO> municipios = bairroService.listarMunicipios();
-//
-//        return ResponseEntity.ok(municipios);
-//    }
+    @GetMapping
+    public ResponseEntity<?> pesquisar(
+            @RequestParam(value = "codigoBairro", required = false) Long codigoBairro,
+            @RequestParam(value = "codigoMunicipio", required = false) Long codigoMunicipio,
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "status", required = false) Integer status
+    ) {
+
+        if(codigoBairro == null && codigoMunicipio == null && nome == null && status != null) {
+            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorStatus(status);
+            return ResponseEntity.ok(bairros);
+        }
+
+        if(codigoBairro == null && codigoMunicipio != null && nome == null && status == null) {
+            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorCodigoMunicipio(codigoMunicipio);
+            return ResponseEntity.ok(bairros);
+        }
+
+        if(codigoBairro == null && codigoMunicipio == null && nome != null && status == null) {
+            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorNome(nome);
+            return ResponseEntity.ok(bairros);
+        }
+
+        if(codigoBairro != null) {
+            RespostaBairroDTO bairro = bairroService.obterBairro(codigoBairro);
+            return ResponseEntity.ok(bairro);
+        }
+
+        List<RespostaBairroDTO> bairros = bairroService.listarBairros();
+
+        return ResponseEntity.ok(bairros);
+    }
 //
 //    @PutMapping
 //    public ResponseEntity<List<RespostaBairroDTO>> atualizar(@RequestBody @Valid AtualizarBairroDTO dto) {

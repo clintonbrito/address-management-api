@@ -9,9 +9,13 @@ import java.util.Optional;
 public interface BairroRepository extends JpaRepository<Bairro, Long> {
     Optional<Bairro> findByNome(String nome);
 
+    List<Bairro> findByStatus(Integer status);
+
+    Bairro findByCodigoBairro(Long codigoBairro);
+
+    List<Bairro> findByMunicipio_CodigoMunicipio(Long municipioCodigoMunicipio);
+
 //    List<Bairro> findByStatus(Integer status);
 
 //    Bairro findByCodigoMunicipio(Long codigoMunicipio);
-
-//    List<Bairro> findByUf_CodigoUf(Long ufCodigoUf);
 }

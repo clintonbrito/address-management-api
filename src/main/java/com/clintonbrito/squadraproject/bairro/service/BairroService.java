@@ -27,35 +27,35 @@ public class BairroService {
         return bairroMapper.toResponseDTOList(bairros);
     }
 
-//    public List<RespostaBairroDTO> pesquisarPorStatus(Integer status) {
-//        List<Bairro> bairros = bairroRepository.findByStatus(status);
-//        return bairroMapper.toResponseDTOList(bairros);
-//    }
-//
-//    public List<RespostaBairroDTO> pesquisarPorCodigoUf(Long codigoUf) {
-//        List<Bairro> bairros = bairroRepository.findByUf_CodigoUf(codigoUf);
-//        return bairroMapper.toResponseDTOList(bairros);
-//    }
-//
-//    public List<RespostaBairroDTO> pesquisarPorNome(String nome) {
-//        Optional<Bairro> optionalMunicipio = bairroRepository.findByNome(nome);
-//        List<Bairro> bairros = convertOptionalToList(optionalMunicipio);
-//        return bairroMapper.toResponseDTOList(bairros);
-//    }
-//
-//    public RespostaBairroDTO obterMunicipio(Long codigoMunicipio) {
-//        Bairro bairro = bairroRepository.findByCodigoMunicipio(codigoMunicipio);
-//        return bairroMapper.toResponseDTO(bairro);
-//    }
-//
-//    public List<RespostaBairroDTO> listarMunicipios() {
-//        List<Bairro> bairros = bairroRepository.findAll();
-//        return bairroMapper.toResponseDTOList(bairros);
-//    }
-//
+    public List<RespostaBairroDTO> pesquisarPorStatus(Integer status) {
+        List<Bairro> bairros = bairroRepository.findByStatus(status);
+        return bairroMapper.toResponseDTOList(bairros);
+    }
+
+    public List<RespostaBairroDTO> pesquisarPorCodigoMunicipio(Long codigoMunicipio) {
+        List<Bairro> bairros = bairroRepository.findByMunicipio_CodigoMunicipio(codigoMunicipio);
+        return bairroMapper.toResponseDTOList(bairros);
+    }
+
+    public List<RespostaBairroDTO> pesquisarPorNome(String nome) {
+        Optional<Bairro> optionalBairro = bairroRepository.findByNome(nome);
+        List<Bairro> bairros = convertOptionalToList(optionalBairro);
+        return bairroMapper.toResponseDTOList(bairros);
+    }
+
+    public RespostaBairroDTO obterBairro(Long codigoBairro) {
+        Bairro bairro = bairroRepository.findByCodigoBairro(codigoBairro);
+        return bairroMapper.toResponseDTO(bairro);
+    }
+
+    public List<RespostaBairroDTO> listarBairros() {
+        List<Bairro> bairros = bairroRepository.findAll();
+        return bairroMapper.toResponseDTOList(bairros);
+    }
+
 //    public List<RespostaBairroDTO> atualizar(Bairro bairro) {
-//        bairroRepository.findById(bairro.getCodigoMunicipio())
-//                .orElseThrow(() -> new RegistroNaoEncontradoException("Município não encontrado. Favor informar um 'codigoMunicipio' válido."));
+//        bairroRepository.findById(bairro.getCodigoBairro())
+//                .orElseThrow(() -> new RegistroNaoEncontradoException("Bairro não encontrado. Favor informar um 'codigoBairro' válido."));
 //
 //        bairroValidator.validar(bairro);
 //        bairroRepository.save(bairro);
@@ -63,8 +63,8 @@ public class BairroService {
 //        return bairroMapper.toResponseDTOList(bairros);
 //    }
 
-//    private List<Bairro> convertOptionalToList(Optional<Bairro> optionalMunicipio) {
-//        return optionalMunicipio.map(List::of).orElseGet(List::of);
-//    }
+    private List<Bairro> convertOptionalToList(Optional<Bairro> optionalMunicipio) {
+        return optionalMunicipio.map(List::of).orElseGet(List::of);
+    }
 
 }
