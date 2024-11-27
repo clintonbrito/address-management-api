@@ -15,7 +15,4 @@ public interface BairroRepository extends JpaRepository<Bairro, Long> {
 
     List<Bairro> findByMunicipio_CodigoMunicipio(Long municipioCodigoMunicipio);
 
-//    List<Bairro> findByStatus(Integer status);
-
-//    Bairro findByCodigoMunicipio(Long codigoMunicipio);
 }
