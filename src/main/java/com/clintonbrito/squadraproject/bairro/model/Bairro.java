@@ -1,6 +1,7 @@
 package com.clintonbrito.squadraproject.bairro.model;
 
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 

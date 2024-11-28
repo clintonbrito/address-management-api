@@ -2,6 +2,7 @@ package com.clintonbrito.squadraproject.endereco.model;
 
 import com.clintonbrito.squadraproject.bairro.model.Bairro;
 import com.clintonbrito.squadraproject.pessoa.model.Pessoa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -38,6 +39,7 @@ public class Endereco implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
+    @JsonIgnore // Evita recursividade infinita
     private Pessoa pessoa;
 
     @ManyToOne

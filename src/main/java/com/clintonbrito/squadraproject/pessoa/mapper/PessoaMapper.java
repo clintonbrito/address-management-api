@@ -5,8 +5,10 @@ import com.clintonbrito.squadraproject.bairro.model.Bairro;
 import com.clintonbrito.squadraproject.bairro.repository.BairroRepository;
 import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
 import com.clintonbrito.squadraproject.endereco.model.Endereco;
+import com.clintonbrito.squadraproject.endereco.repository.EnderecoRepository;
 import com.clintonbrito.squadraproject.pessoa.dto.AtualizarPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.CadastroPessoaDTO;
+import com.clintonbrito.squadraproject.pessoa.dto.RespostaDetalhadaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.RespostaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.model.Pessoa;
 import org.mapstruct.Mapper;
@@ -21,6 +23,7 @@ public abstract class PessoaMapper {
 
     @Autowired
     BairroRepository bairroRepository;
+    EnderecoRepository enderecoRepository;
 
 //    @Mapping(target = "enderecos", expression = "java( bairroRepository.findById(dto.codigoBairro()).orElse(null) )")
     public Pessoa toEntity(CadastroPessoaDTO dto) {
@@ -51,6 +54,9 @@ public abstract class PessoaMapper {
 
     @Mapping(target = "enderecos", expression = "java( new ArrayList<>() )")
     public abstract RespostaPessoaDTO toResponseDTO(Pessoa pessoa);
+
+    @Mapping(target = "enderecos", source = "enderecos")
+    public abstract RespostaDetalhadaPessoaDTO toDetailedResponseDTO(Pessoa pessoa);
 
     public abstract List<RespostaPessoaDTO> toResponseDTOList(List<Pessoa> pessoas);
 
