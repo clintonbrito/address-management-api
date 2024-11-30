@@ -25,7 +25,7 @@ public abstract class PessoaMapper {
     BairroRepository bairroRepository;
     EnderecoRepository enderecoRepository;
 
-//    @Mapping(target = "enderecos", expression = "java( bairroRepository.findById(dto.codigoBairro()).orElse(null) )")
+    //    @Mapping(target = "enderecos", expression = "java( bairroRepository.findById(dto.codigoBairro()).orElse(null) )")
     public Pessoa toEntity(CadastroPessoaDTO dto) {
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(dto.nome());
@@ -46,7 +46,7 @@ public abstract class PessoaMapper {
                     .orElseThrow(() -> new RegistroNaoEncontradoException("Código do bairro informado ('" + enderecoDTO.codigoBairro() + "') é inválido."));
             endereco.setBairro(bairro);
             return endereco;
-            }).collect(Collectors.toList());
+        }).collect(Collectors.toList());
 
         pessoa.setEnderecos(enderecos);
         return pessoa;
@@ -60,7 +60,33 @@ public abstract class PessoaMapper {
 
     public abstract List<RespostaPessoaDTO> toResponseDTOList(List<Pessoa> pessoas);
 
-//    @Mapping(target = "bairro", expression = "java( bairroRepository.findById(dto.codigoBairro()).orElse(null) )")
-//    public abstract Pessoa toEntity(AtualizarPessoaDTO dto);
+    //    @Mapping(target = "bairro", expression = "java( bairroRepository.findById(dto.codigoBairro()).orElse(null) )")
+    public Pessoa toEntity(AtualizarPessoaDTO dto) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCodigoPessoa(dto.codigoPessoa());
+        pessoa.setNome(dto.nome());
+        pessoa.setSobrenome(dto.sobrenome());
+        pessoa.setIdade(dto.idade());
+        pessoa.setLogin(dto.login());
+        pessoa.setSenha(dto.senha());
+        pessoa.setStatus(dto.status());
+
+        List<Endereco> enderecos = dto.enderecos().stream().map(enderecoDTO -> {
+            Endereco endereco = new Endereco();
+            endereco.setCodigoEndereco(enderecoDTO.codigoEndereco());
+            endereco.setNomeRua(enderecoDTO.nomeRua());
+            endereco.setNumero(enderecoDTO.numero());
+            endereco.setComplemento(enderecoDTO.complemento());
+            endereco.setCep(enderecoDTO.cep());
+
+            Bairro bairro = bairroRepository.findById(enderecoDTO.codigoBairro())
+                    .orElseThrow(() -> new RegistroNaoEncontradoException("Código do bairro informado ('" + enderecoDTO.codigoBairro() + "') é inválido."));
+            endereco.setBairro(bairro);
+            return endereco;
+        }).collect(Collectors.toList());
+
+        pessoa.setEnderecos(enderecos);
+        return pessoa;
+    }
 
 }

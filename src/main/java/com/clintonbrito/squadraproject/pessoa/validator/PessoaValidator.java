@@ -1,9 +1,10 @@
 package com.clintonbrito.squadraproject.pessoa.validator;
 
-import com.clintonbrito.squadraproject.bairro.model.Bairro;
-import com.clintonbrito.squadraproject.bairro.repository.BairroRepository;
+import com.clintonbrito.squadraproject.common.exception.OperacaoNaoPermitidaException;
 import com.clintonbrito.squadraproject.common.exception.RegistroDuplicadoException;
 import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
+import com.clintonbrito.squadraproject.endereco.model.Endereco;
+import com.clintonbrito.squadraproject.endereco.repository.EnderecoRepository;
 import com.clintonbrito.squadraproject.pessoa.model.Pessoa;
 import com.clintonbrito.squadraproject.pessoa.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class PessoaValidator {
 
     private final PessoaRepository pessoaRepository;
-    private final BairroRepository bairroRepository;
+    private final EnderecoRepository enderecoRepository;
 
     public void validarCadastroPessoa(Pessoa pessoa) {
         if (pessoa.getEnderecos() == null) {
@@ -22,7 +23,30 @@ public class PessoaValidator {
         }
 
         validarLoginUnico(pessoa);
-        validarEnderecos(pessoa);
+        validarArrayDeEnderecos(pessoa);
+    }
+
+    public void validarAtualizacaoPessoa(Pessoa pessoa) {
+        Pessoa pessoaAtual = pessoaRepository.findById(pessoa.getCodigoPessoa())
+                        .orElseThrow(() -> new RegistroNaoEncontradoException("Pessoa não encontrada. Favor informar um 'codigoPessoa' válido."));
+
+        if(!pessoaAtual.getLogin().equals(pessoa.getLogin())) {
+            validarLoginUnico(pessoa);
+        }
+
+        validarArrayDeEnderecos(pessoa);
+    }
+
+    public Endereco validarEndereco(Long codigoEndereco, Pessoa pessoa) {
+        Endereco endereco = enderecoRepository.findById(codigoEndereco)
+                .orElseThrow(() ->
+                        new RegistroNaoEncontradoException("O endereço informado não consta no banco de dados."));
+
+        if(!endereco.getPessoa().getCodigoPessoa().equals(pessoa.getCodigoPessoa())) {
+            throw new OperacaoNaoPermitidaException("O endereço informado não pertence à pessoa informada.");
+        }
+
+        return endereco;
     }
 
     private void validarLoginUnico(Pessoa pessoa) {
@@ -31,27 +55,10 @@ public class PessoaValidator {
         }
     }
 
-    private void validarEnderecos(Pessoa pessoa) {
+    private void validarArrayDeEnderecos(Pessoa pessoa) {
         if (pessoa.getEnderecos() == null || pessoa.getEnderecos().isEmpty()) {
             throw new RegistroNaoEncontradoException("Você deve cadastrar pelo menos um endereço.");
         }
-
-//        pessoa.getEnderecos().forEach(endereco -> {
-//            Bairro bairro = endereco.getBairro();
-//            if (!bairroRepository.existsById(bairro.getCodigoBairro())) {
-//                throw new RegistroNaoEncontradoException("O código do bairro é inválido.");
-//            }
-//        });
     }
-
-//    private void validarLoginDuplicado(Pessoa pessoa) {
-//        boolean duplicado = pessoaRepository.findByLogin(pessoa.getLogin())
-//                .filter(p -> !p.getLogin().equals(pessoa.getLogin()))
-//                .isPresent();
-//
-//        if(duplicado) {
-//            throw new RegistroDuplicadoException("Login já cadastrado. Favor informar um novo 'login'.");
-//        }
-//    }
 
 }

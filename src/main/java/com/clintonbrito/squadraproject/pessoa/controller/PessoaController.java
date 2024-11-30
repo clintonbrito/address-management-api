@@ -1,5 +1,6 @@
 package com.clintonbrito.squadraproject.pessoa.controller;
 
+import com.clintonbrito.squadraproject.pessoa.dto.AtualizarPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.CadastroPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.RespostaDetalhadaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.RespostaPessoaDTO;
@@ -55,11 +56,11 @@ public class PessoaController {
         return ResponseEntity.ok(pessoas);
     }
 
-//    @PutMapping
-//    public ResponseEntity<List<RespostaPessoaDTO>> atualizar(@RequestBody @Valid AtualizarPessoaDTO dto) {
-//        Pessoa pessoa = pessoaMapper.toEntity(dto);
-//        List<RespostaPessoaDTO> bairroSalvo = pessoaService.atualizar(pessoa);
-//        return ResponseEntity.ok(bairroSalvo);
-//    }
+    @PutMapping
+    public ResponseEntity<List<RespostaPessoaDTO>> atualizar(@RequestBody @Valid AtualizarPessoaDTO dto) {
+        Pessoa pessoa = pessoaMapper.toEntity(dto);
+        List<RespostaPessoaDTO> pessoaSalva = pessoaService.atualizar(pessoa);
+        return ResponseEntity.ok(pessoaSalva);
+    }
 
 }
