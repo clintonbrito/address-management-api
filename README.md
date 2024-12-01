@@ -4,7 +4,7 @@ This project is the final assessment for the Squadra New Thinkers Bootcamp. It c
 
 ## Requirements
 
-- Java 17
+- Java 21
 - Maven 3.9.9
 - Docker
 
@@ -59,17 +59,35 @@ The database is an Oracle database. The database schema is created automatically
 - Oracle Database
 - Docker
 - Maven
+- Lombok
+- MapStruct
 
 ## Architecture
 
 The project follows the MVC architecture. The project is divided into the following packages:
 
+Each entity has its own package with the following structure:
+
 - `controller`: Contains the controllers for the API endpoints
-- `entity`: Contains the entities for the database
+- `dto`: Contains the DTOs for the API
+- `mapper`: Contains the mappers for the DTOs
+- `model`: Contains the entities for the application
 - `repository`: Contains the repositories for the entities
 - `service`: Contains the services for the entities
-- `exception`: Contains the exceptions for the application
-- `dto`: Contains the DTOs for the API
+- `util`: Contains utility classes
+- `validator`: Contains the validator classes
+
+Besides the entity packages, the project has the following packages:
+
+- `common`: Contains common classes for the application
+- `common.exception`: Contains the exception classes for the application
+- `GlobalExceptionHandler` file: Contains the global exception handler for the application
+
+Besides the packages, the project has the following files:
+- `application.properties`: Contains the application properties
+- `criar_usuario_c##java_com_suas_permissões.sql`: Contains the SQL script to create the user and grant the necessary permissions
+- `script_sql_criar_tabelas.sql`: Contains the SQL script to create the tables
+- `docker-compose.yml`: Contains the Docker Compose file to start the Oracle database
 
 ## License
 

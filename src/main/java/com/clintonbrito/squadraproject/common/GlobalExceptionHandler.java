@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +48,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta handleOperacaoNaoPermitidaException(OperacaoNaoPermitidaException e) {
         return ErroResposta.respostaPadrao(e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErroResposta handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        String errorMessage = String.format("O valor de tipo '%s' não é válido para o campo '%s'. Este campo deve ser do tipo '%s'.",
+                e.getValue().getClass().getSimpleName(), e.getName(), e.getRequiredType().getSimpleName());
+        return new ErroResposta(
+                HttpStatus.BAD_REQUEST.value(),
+                "Erro de validação.",
+                List.of(new ErroCampo(e.getName(), errorMessage))
+        );
     }
 
     @ExceptionHandler(RuntimeException.class)

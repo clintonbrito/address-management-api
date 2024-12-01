@@ -1,9 +1,15 @@
 package com.clintonbrito.squadraproject.endereco.dto;
 
+import com.clintonbrito.squadraproject.endereco.dto.custom.BairroParaEnderecoDTO;
+
 public record RespostaEnderecoDTO(
+        Long codigoEndereco,
+        Long codigoPessoa,
         Long codigoBairro,
-        Long codigoMunicipio,
-        String nome,
-        Integer status
+        String nomeRua,
+        Integer numero,
+        String complemento,
+        String cep,
+        BairroParaEnderecoDTO bairro
 ) {
 }

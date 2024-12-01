@@ -17,4 +17,4 @@ services:
 
     # Mount a volume with SQL script to create a user and grant DBA privileges
     volumes:
-      - ./create_user_and_grant_privileges.sql:/docker-entrypoint-initdb.d/create_user_and_grant_privileges.sql
+      - ./criar_usuario_c##java_com_suas_permissoes.sql:/docker-entrypoint-initdb.d/criar_usuario_c##java_com_suas_permissoes.sql
