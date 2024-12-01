@@ -25,6 +25,13 @@ cd address-management-api
 docker-compose up -d
 ```
 
+> [!NOTE]
+> In case you'd like to see the logs, you can run the command without the `-d` flag or run the following command:
+> ```bash
+> docker-compose logs -f
+> ```
+
+
 3. Now you can start the application. To do this, run the following command:
 
 ```bash
@@ -34,9 +41,10 @@ mvn spring-boot:run
 > [!NOTE]
 > The application will be available at `http://localhost:8080`.
 
-## API Documentation
+[//]: # (## API Documentation)
 
-The API documentation is available at `http://localhost:8080/swagger-ui.html`.
+[//]: # ()
+[//]: # (The API documentation is available at `http://localhost:8080/swagger-ui.html`.)
 
 ## Endpoints
 
@@ -49,7 +57,9 @@ The API has the following endpoints:
 
 ## Database
 
-The database is an Oracle database. The database schema is created automatically when the application starts. The schema is created by the `schema.sql` file, and the data is inserted by the `data.sql` file.
+The database is an Oracle database. After starting the docker container, the user `C##JAVA` will be created automatically with its credentials and permissions. The file `criar_usuario_c##java_com_suas_permissões.sql` contains the SQL script to create the user and grant the necessary permissions.
+
+And the file `script_sql_criar_tabelas.sql` contains the SQL script to create the tables.
 
 ## Technologies
 
