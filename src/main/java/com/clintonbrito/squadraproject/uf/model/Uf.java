@@ -14,7 +14,7 @@ public class Uf implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_uf_gen")
     @SequenceGenerator(name = "sequence_uf_gen", sequenceName = "sequence_uf", allocationSize = 1)
     @Column(name = "codigo_uf")
-    private Long codigoUf;
+    private Long codigoUF;
 
     @Column(length = 2, nullable = false)
     private String sigla;

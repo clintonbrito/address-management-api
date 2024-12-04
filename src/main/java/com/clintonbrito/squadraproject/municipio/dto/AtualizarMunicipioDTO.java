@@ -7,7 +7,7 @@ public record AtualizarMunicipioDTO(
         Long codigoMunicipio,
 
         @NotNull(message = "Campo obrigatório.")
-        Long codigoUf,
+        Long codigoUF,
 
         @NotBlank(message = "Campo obrigatório.")
         @Size(min = 3, max = 60, message = "O nome deve conter entre {min} e {max} caracteres")

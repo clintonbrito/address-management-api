@@ -4,7 +4,8 @@ import jakarta.validation.constraints.*;
 
 public record AtualizarUfDTO(
         @NotNull(message = "Campo obrigatório.")
-        Long codigoUf,
+        @Size(min = 1, max = 9, message = "O código da UF deve conter entre {min} e {max} caracteres")
+        Long codigoUF,
 
         @NotNull(message = "Campo obrigatório.")
         @Size(max = 2, min = 2, message = "A sigla deve conter 2 caracteres")

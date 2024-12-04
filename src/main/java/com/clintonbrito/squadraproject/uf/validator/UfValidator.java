@@ -24,13 +24,13 @@ public class UfValidator {
 
     private boolean existeUfNoBanco(Uf uf) {
         return ufRepository.findBySigla(uf.getSigla())
-                .filter(ufEncontrada -> !ufEncontrada.getCodigoUf().equals(uf.getCodigoUf()))
+                .filter(ufEncontrada -> !ufEncontrada.getCodigoUF().equals(uf.getCodigoUF()))
                 .isPresent();
     }
 
     private boolean existeEstadoNoBanco(Uf uf) {
         return ufRepository.findByNome(uf.getNome())
-                .filter(estadoEncontrado -> !estadoEncontrado.getCodigoUf().equals(uf.getCodigoUf()))
+                .filter(estadoEncontrado -> !estadoEncontrado.getCodigoUF().equals(uf.getCodigoUF()))
                 .isPresent();
     }
 }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 public record CadastroMunicipioDTO(
         @NotNull(message = "Campo obrigatório.")
-        Long codigoUf,
+        Long codigoUF,
 
         @NotBlank(message = "Campo obrigatório.")
         @Size(min = 3, max = 60, message = "O nome deve conter entre {min} e {max} caracteres")

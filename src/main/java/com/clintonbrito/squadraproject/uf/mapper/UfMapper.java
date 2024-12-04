@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UfMapper {
 
-    @Mapping(target = "codigoUf", ignore = true)
+    @Mapping(target = "codigoUF", ignore = true)
     Uf toEntity(CadastroUfDTO dto);
 
     Uf toEntity(AtualizarUfDTO dto);

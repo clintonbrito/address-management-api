@@ -33,7 +33,7 @@ public class MunicipioService {
     }
 
     public List<RespostaMunicipioDTO> pesquisarPorCodigoUf(Long codigoUf) {
-        List<Municipio> municipios = municipioRepository.findByUf_CodigoUf(codigoUf);
+        List<Municipio> municipios = municipioRepository.findByUf_CodigoUF(codigoUf);
         return municipioMapper.toResponseDTOList(municipios);
     }
 
