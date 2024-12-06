@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 
 public record AtualizarEnderecoDTO(
         // @NotNull(message = "Campo obrigatório.") -> Pode ser nulo para novos endereços
+        @Min(value = 1, message = "O código do Endereço deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código do Endereço deve ser um número entre 1 e 999999999.")
         Long codigoEndereco,
 
         @NotNull(message = "Campo obrigatório.")

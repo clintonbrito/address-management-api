@@ -4,9 +4,13 @@ import jakarta.validation.constraints.*;
 
 public record AtualizarBairroDTO(
         @NotNull(message = "Campo obrigatório.")
+        @Min(value = 1, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
         Long codigoBairro,
 
         @NotNull(message = "Campo obrigatório.")
+        @Min(value = 1, message = "O código do Município deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código do Município deve ser um número entre 1 e 999999999.")
         Long codigoMunicipio,
 
         @NotBlank(message = "Campo obrigatório.")

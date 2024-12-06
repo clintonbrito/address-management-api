@@ -4,9 +4,8 @@ import jakarta.validation.constraints.*;
 
 public record CadastroMunicipioDTO(
         @NotNull(message = "Campo obrigatório.")
-//        @Min(value = 1, message = "O código da Uf deve ser um número entre 1 e 999999999.")
-//        @Max(value = 999999999, message = "O código da Uf deve ser um número entre 1 e 999999999.")
-//        @Pattern(regexp = "^[0-9]+$", message = "O código da Uf deve conter apenas números.")
+        @Min(value = 1, message = "O código da UF deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código da UF deve ser um número entre 1 e 999999999.")
         Long codigoUF,
 
         @NotBlank(message = "Campo obrigatório.")
