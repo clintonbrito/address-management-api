@@ -2,17 +2,11 @@ package com.clintonbrito.squadraproject.bairro.repository;
 
 import com.clintonbrito.squadraproject.bairro.model.Bairro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface BairroRepository extends JpaRepository<Bairro, Long> {
+public interface BairroRepository extends JpaRepository<Bairro, Long>, JpaSpecificationExecutor<Bairro> {
     Optional<Bairro> findByNome(String nome);
-
-    List<Bairro> findByStatus(Integer status);
-
-    Bairro findByCodigoBairro(Long codigoBairro);
-
-    List<Bairro> findByMunicipio_CodigoMunicipio(Long municipioCodigoMunicipio);
 
 }

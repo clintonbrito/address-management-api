@@ -7,7 +7,11 @@ import com.clintonbrito.squadraproject.bairro.mapper.BairroMapper;
 import com.clintonbrito.squadraproject.bairro.model.Bairro;
 import com.clintonbrito.squadraproject.bairro.service.BairroService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,33 +34,27 @@ public class BairroController {
 
     @GetMapping
     public ResponseEntity<?> pesquisar(
-            @RequestParam(value = "codigoBairro", required = false) Long codigoBairro,
-            @RequestParam(value = "codigoMunicipio", required = false) Long codigoMunicipio,
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "status", required = false) Integer status
+            @RequestParam(value = "codigoBairro", required = false)
+            @Min(value = 1, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
+            @Max(value = 999999999, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
+            Long codigoBairro,
+
+            @RequestParam(value = "codigoMunicipio", required = false)
+            @Min(value = 1, message = "O código do Município deve ser um número entre 1 e 999999999.")
+            @Max(value = 999999999, message = "O código do Município deve ser um número entre 1 e 999999999.")
+            Long codigoMunicipio,
+
+            @RequestParam(value = "nome", required = false)
+            @Length(min = 3, max = 60, message = "O nome do Bairro deve conter entre 3 e 60 caracteres.")
+            @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s]+$", message = "O nome do Bairro deve conter apenas letras e espaços")
+            String nome,
+
+            @RequestParam(value = "status", required = false)
+            @Min(value = 1, message = "O status deve ser um número inteiro positivo.")
+            Integer status
     ) {
 
-        if(codigoBairro == null && codigoMunicipio == null && nome == null && status != null) {
-            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorStatus(status);
-            return ResponseEntity.ok(bairros);
-        }
-
-        if(codigoBairro == null && codigoMunicipio != null && nome == null && status == null) {
-            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorCodigoMunicipio(codigoMunicipio);
-            return ResponseEntity.ok(bairros);
-        }
-
-        if(codigoBairro == null && codigoMunicipio == null && nome != null && status == null) {
-            List<RespostaBairroDTO> bairros = bairroService.pesquisarPorNome(nome);
-            return ResponseEntity.ok(bairros);
-        }
-
-        if(codigoBairro != null) {
-            RespostaBairroDTO bairro = bairroService.obterBairro(codigoBairro);
-            return ResponseEntity.ok(bairro);
-        }
-
-        List<RespostaBairroDTO> bairros = bairroService.listarBairros();
+        Object bairros = bairroService.pesquisaPorFiltros(codigoBairro, codigoMunicipio, nome, status);
 
         return ResponseEntity.ok(bairros);
     }

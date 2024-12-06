@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,34 +34,31 @@ public class MunicipioService {
         Specification<Municipio> specs = Specification
                 .where((root, query, cb) -> cb.conjunction());
 
-        if(codigoMunicipio != null) {
+        if (codigoMunicipio != null) {
             specs = specs.and(MunicipioSpecs.codigoMunicipioEqual(codigoMunicipio));
         }
 
-        if(codigoUF != null) {
+        if (codigoUF != null) {
             specs = specs.and(MunicipioSpecs.codigoUFEqual(codigoUF));
         }
 
-        if(nome != null) {
+        if (nome != null) {
             specs = specs.and(MunicipioSpecs.nomeLike(nome));
         }
 
-        if(status != null) {
+        if (status != null) {
             specs = specs.and(MunicipioSpecs.statusEqual(status));
         }
 
         List<Municipio> rawResult = municipioRepository.findAll(specs);
         List<RespostaMunicipioDTO> result = municipioMapper.toResponseDTOList(rawResult);
 
-        if(codigoMunicipio != null) {
-            if(result.isEmpty()){
-                return new ArrayList<>();
-            }
-            return result.getFirst();
+        if (result.isEmpty()) {
+            return new ArrayList<>();
         }
 
-        if(result.isEmpty()) {
-            return new ArrayList<>();
+        if (codigoMunicipio != null) {
+            return result.getFirst();
         }
 
         return result;
@@ -78,9 +74,5 @@ public class MunicipioService {
         List<Municipio> municipios = municipioRepository.findAll();
         return municipioMapper.toResponseDTOList(municipios);
     }
-
-//    private List<Municipio> convertOptionalToList(Optional<Municipio> optionalMunicipio) {
-//        return optionalMunicipio.map(List::of).orElseGet(List::of);
-//    }
 
 }
