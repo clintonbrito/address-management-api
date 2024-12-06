@@ -47,7 +47,7 @@ public class UfController {
             String nome,
 
             @RequestParam(value = "status", required = false)
-            @Positive(message = "O status deve ser um número inteiro positivo.")
+            @Min(value = 1, message = "O status deve ser um número inteiro positivo.")
             Integer status
     ) {
 

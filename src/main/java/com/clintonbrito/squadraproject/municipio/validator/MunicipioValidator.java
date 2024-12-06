@@ -17,7 +17,7 @@ public class MunicipioValidator {
 
     public void validar(Municipio municipio) {
         if (municipio.getUf() == null) {
-            throw new RegistroNaoEncontradoException("UF não encontrada. Favor informar uma UF válida.");
+            throw new RegistroNaoEncontradoException("Uf não encontrada. Favor informar uma Uf válida.");
         }
 
         validarCodigoUf(municipio.getUf().getCodigoUF());
@@ -26,7 +26,7 @@ public class MunicipioValidator {
 
     private void validarCodigoUf(Long codigoUF) {
         if(!ufRepository.existsByCodigoUF(codigoUF)) {
-            throw new RegistroNaoEncontradoException("Código da UF não encontrado. Favor informar um 'codigoUf' válido.");
+            throw new RegistroNaoEncontradoException("Código da Uf não encontrado. Favor informar um 'codigoUf' válido.");
         }
     }
 

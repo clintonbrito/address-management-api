@@ -3,8 +3,10 @@ package com.clintonbrito.squadraproject.common;
 import com.clintonbrito.squadraproject.common.exception.OperacaoNaoPermitidaException;
 import com.clintonbrito.squadraproject.common.exception.RegistroDuplicadoException;
 import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,6 +97,31 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Erro de validação.",
                 listaErros);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErroResposta handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        List<ErroCampo> erros = new ArrayList<>();
+
+        Throwable causa = e.getCause(); // Obtém a causa raiz do erro
+        if (causa instanceof InvalidFormatException) {
+            InvalidFormatException ex = (InvalidFormatException) causa;
+            String campo = ex.getPath().stream()
+                    .map(ref -> ref.getFieldName()) // Obtém o nome do campo que gerou o erro
+                    .findFirst()
+                    .orElse("campo desconhecido");
+
+            erros.add(new ErroCampo(campo, "Você deve informar um valor do tipo '" + ex.getTargetType().getSimpleName() + "'."));
+        } else {
+            erros.add(new ErroCampo("corpo da requisição", "O corpo da requisição não está no formato correto."));
+        }
+
+        return new ErroResposta(
+                HttpStatus.BAD_REQUEST.value(),
+                "Erro de validação.",
+                erros
+        );
     }
 
     @ExceptionHandler(RuntimeException.class)

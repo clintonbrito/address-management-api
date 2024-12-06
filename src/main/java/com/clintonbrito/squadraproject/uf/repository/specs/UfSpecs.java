@@ -14,10 +14,10 @@ public class UfSpecs {
                 cb.equal(root.get("sigla"), sigla);
     }
 
+    // % no início e no final da string de busca para buscar em qualquer parte do nome
+    // cb.like( cb.upper(root.get("nome")), "%" + nome.toUpperCase() + "%")
     public static Specification<Uf> nomeLike(String nome) {
         return (root, query, cb) ->
-                // % no início e no final da string de busca para buscar em qualquer parte do nome
-                // cb.like( cb.upper(root.get("nome")), "%" + nome.toUpperCase() + "%")
                 cb.like( cb.upper(root.get("nome")), nome.toUpperCase());
     }
 

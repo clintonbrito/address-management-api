@@ -5,10 +5,13 @@ import com.clintonbrito.squadraproject.municipio.dto.RespostaMunicipioDTO;
 import com.clintonbrito.squadraproject.municipio.mapper.MunicipioMapper;
 import com.clintonbrito.squadraproject.municipio.model.Municipio;
 import com.clintonbrito.squadraproject.municipio.repository.MunicipioRepository;
+import com.clintonbrito.squadraproject.municipio.repository.specs.MunicipioSpecs;
 import com.clintonbrito.squadraproject.municipio.validator.MunicipioValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,35 +30,48 @@ public class MunicipioService {
         return municipioMapper.toResponseDTOList(municipios);
     }
 
-    public List<RespostaMunicipioDTO> pesquisarPorStatus(Integer status) {
-        List<Municipio> municipios = municipioRepository.findByStatus(status);
-        return municipioMapper.toResponseDTOList(municipios);
-    }
+    public Object pesquisaPorFiltros(Long codigoMunicipio, Long codigoUF, String nome, Integer status) {
 
-    public List<RespostaMunicipioDTO> pesquisarPorCodigoUf(Long codigoUf) {
-        List<Municipio> municipios = municipioRepository.findByUf_CodigoUF(codigoUf);
-        return municipioMapper.toResponseDTOList(municipios);
-    }
+        Specification<Municipio> specs = Specification
+                .where((root, query, cb) -> cb.conjunction());
 
-    public List<RespostaMunicipioDTO> pesquisarPorNome(String nome) {
-        Optional<Municipio> optionalMunicipio = municipioRepository.findByNome(nome);
-        List<Municipio> municipios = convertOptionalToList(optionalMunicipio);
-        return municipioMapper.toResponseDTOList(municipios);
-    }
+        if(codigoMunicipio != null) {
+            specs = specs.and(MunicipioSpecs.codigoMunicipioEqual(codigoMunicipio));
+        }
 
-    public RespostaMunicipioDTO obterMunicipio(Long codigoMunicipio) {
-        Municipio municipio = municipioRepository.findByCodigoMunicipio(codigoMunicipio);
-        return municipioMapper.toResponseDTO(municipio);
-    }
+        if(codigoUF != null) {
+            specs = specs.and(MunicipioSpecs.codigoUFEqual(codigoUF));
+        }
 
-    public List<RespostaMunicipioDTO> listarMunicipios() {
-        List<Municipio> municipios = municipioRepository.findAll();
-        return municipioMapper.toResponseDTOList(municipios);
+        if(nome != null) {
+            specs = specs.and(MunicipioSpecs.nomeLike(nome));
+        }
+
+        if(status != null) {
+            specs = specs.and(MunicipioSpecs.statusEqual(status));
+        }
+
+        List<Municipio> rawResult = municipioRepository.findAll(specs);
+        List<RespostaMunicipioDTO> result = municipioMapper.toResponseDTOList(rawResult);
+
+        if(codigoMunicipio != null) {
+            if(result.isEmpty()){
+                return new ArrayList<>();
+            }
+            return result.getFirst();
+        }
+
+        if(result.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return result;
     }
 
     public List<RespostaMunicipioDTO> atualizar(Municipio municipio) {
         municipioRepository.findById(municipio.getCodigoMunicipio())
-                .orElseThrow(() -> new RegistroNaoEncontradoException("Município não encontrado. Favor informar um 'codigoMunicipio' válido."));
+                .orElseThrow(() ->
+                        new RegistroNaoEncontradoException("Município não encontrado. Favor informar um 'codigoMunicipio' válido."));
 
         municipioValidator.validar(municipio);
         municipioRepository.save(municipio);
@@ -63,8 +79,8 @@ public class MunicipioService {
         return municipioMapper.toResponseDTOList(municipios);
     }
 
-    private List<Municipio> convertOptionalToList(Optional<Municipio> optionalMunicipio) {
-        return optionalMunicipio.map(List::of).orElseGet(List::of);
-    }
+//    private List<Municipio> convertOptionalToList(Optional<Municipio> optionalMunicipio) {
+//        return optionalMunicipio.map(List::of).orElseGet(List::of);
+//    }
 
 }
