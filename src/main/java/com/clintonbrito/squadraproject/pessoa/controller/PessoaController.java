@@ -2,12 +2,15 @@ package com.clintonbrito.squadraproject.pessoa.controller;
 
 import com.clintonbrito.squadraproject.pessoa.dto.AtualizarPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.CadastroPessoaDTO;
-import com.clintonbrito.squadraproject.pessoa.dto.RespostaDetalhadaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.RespostaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.mapper.PessoaMapper;
 import com.clintonbrito.squadraproject.pessoa.model.Pessoa;
 import com.clintonbrito.squadraproject.pessoa.service.PessoaService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,27 +34,22 @@ public class PessoaController {
 
     @GetMapping
     public ResponseEntity<?> pesquisar(
-            @RequestParam(value = "codigoPessoa", required = false) Long codigoPessoa,
-            @RequestParam(value = "login", required = false) String login,
-            @RequestParam(value = "status", required = false) Integer status
+            @RequestParam(value = "codigoPessoa", required = false)
+            @Min(value = 1, message = "O código da Pessoa deve ser um número entre 1 e 999999999.")
+            @Max(value = 999999999, message = "O código da Pessoa deve ser um número entre 1 e 999999999.")
+            Long codigoPessoa,
+
+            @RequestParam(value = "login", required = false)
+            @Size(min = 3, max = 50, message = "O login deve conter entre {min} e {max} caracteres.")
+            @Pattern(regexp = "^[a-z0-9._-]+$", message = "O login deve conter apenas letras minúsculas, números e os caracteres . _ -")
+            String login,
+
+            @RequestParam(value = "status", required = false)
+            @Min(value = 1, message = "O status deve ser um número inteiro positivo.")
+            Integer status
     ) {
 
-        if(codigoPessoa == null && login == null && status != null) {
-            List<RespostaPessoaDTO> pessoas = pessoaService.pesquisarPorStatus(status);
-            return ResponseEntity.ok(pessoas);
-        }
-
-        if(codigoPessoa == null && login != null && status == null) {
-            List<RespostaPessoaDTO> pessoas = pessoaService.pesquisarPorLogin(login);
-            return ResponseEntity.ok(pessoas);
-        }
-
-        if(codigoPessoa != null) {
-            RespostaDetalhadaPessoaDTO pessoa = pessoaService.obterPessoa(codigoPessoa);
-            return ResponseEntity.ok(pessoa);
-        }
-
-        List<RespostaPessoaDTO> pessoas = pessoaService.listarPessoas();
+        Object pessoas = pessoaService.pesquisaPorFiltros(codigoPessoa, login, status);
 
         return ResponseEntity.ok(pessoas);
     }

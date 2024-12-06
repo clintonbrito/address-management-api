@@ -1,7 +1,7 @@
 package com.clintonbrito.squadraproject.endereco.dto.custom;
 
 public record UfParaEnderecoDTO(
-        Long codigoUf,
+        Long codigoUF,
         String nome,
         String sigla,
         Integer status

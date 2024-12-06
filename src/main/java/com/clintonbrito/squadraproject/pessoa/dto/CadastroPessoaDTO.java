@@ -23,7 +23,7 @@ public record CadastroPessoaDTO(
         Integer idade,
 
         @NotBlank(message = "Campo obrigatório.")
-        @Size(min = 3, max = 60, message = "O login deve conter entre {min} e {max} caracteres.")
+        @Size(min = 3, max = 50, message = "O login deve conter entre {min} e {max} caracteres.")
         @Pattern(regexp = "^[a-z0-9._-]+$", message = "O login deve conter apenas letras minúsculas, números e os caracteres . _ -")
         String login,
 

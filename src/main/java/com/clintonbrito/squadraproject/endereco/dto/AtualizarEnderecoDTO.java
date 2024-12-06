@@ -3,13 +3,17 @@ package com.clintonbrito.squadraproject.endereco.dto;
 import jakarta.validation.constraints.*;
 
 public record AtualizarEnderecoDTO(
-//        @NotNull(message = "Campo obrigatório.") // Pode ser nulo para novos endereços
+        // @NotNull(message = "Campo obrigatório.") -> Pode ser nulo para novos endereços
         Long codigoEndereco,
 
         @NotNull(message = "Campo obrigatório.")
+        @Min(value = 1, message = "O código da Pessoa deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código da Pessoa deve ser um número entre 1 e 999999999.")
         Long codigoPessoa,
 
         @NotNull(message = "Campo obrigatório.")
+        @Min(value = 1, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
+        @Max(value = 999999999, message = "O código do Bairro deve ser um número entre 1 e 999999999.")
         Long codigoBairro,
 
         @NotBlank(message = "Campo obrigatório.")

@@ -4,20 +4,20 @@ import com.clintonbrito.squadraproject.bairro.repository.BairroRepository;
 import com.clintonbrito.squadraproject.common.exception.RegistroNaoEncontradoException;
 import com.clintonbrito.squadraproject.endereco.model.Endereco;
 import com.clintonbrito.squadraproject.endereco.repository.EnderecoRepository;
-import com.clintonbrito.squadraproject.pessoa.dto.RespostaDetalhadaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.dto.RespostaPessoaDTO;
 import com.clintonbrito.squadraproject.pessoa.mapper.PessoaMapper;
 import com.clintonbrito.squadraproject.pessoa.model.Pessoa;
 import com.clintonbrito.squadraproject.pessoa.repository.PessoaRepository;
+import com.clintonbrito.squadraproject.pessoa.repository.specs.PessoaSpecs;
 import com.clintonbrito.squadraproject.pessoa.validator.PessoaValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,25 +45,51 @@ public class PessoaService {
         return pessoaMapper.toResponseDTOList(pessoas);
     }
 
-    public List<RespostaPessoaDTO> pesquisarPorStatus(Integer status) {
-        List<Pessoa> pessoas = pessoaRepository.findByStatus(status);
-        return pessoaMapper.toResponseDTOList(pessoas);
-    }
+    public Object pesquisaPorFiltros(Long codigoPessoa, String login, Integer status) {
 
-    public List<RespostaPessoaDTO> pesquisarPorLogin(String login) {
-        Optional<Pessoa> optionalPessoa = pessoaRepository.findByLogin(login);
-        List<Pessoa> pessoaList = converterOptionalParaLista(optionalPessoa);
-        return pessoaMapper.toResponseDTOList(pessoaList);
-    }
+        Specification<Pessoa> specs = Specification
+                .where((root, query, cb) -> cb.conjunction());
 
-    public RespostaDetalhadaPessoaDTO obterPessoa(Long codigoPessoa) {
-        Pessoa pessoa = pessoaRepository.findByCodigoPessoa(codigoPessoa);
-        return pessoaMapper.toDetailedResponseDTO(pessoa);
-    }
+        if(codigoPessoa != null) {
+            specs = specs.and(PessoaSpecs.codigoPessoaEqual(codigoPessoa));
+        }
 
-    public List<RespostaPessoaDTO> listarPessoas() {
-        List<Pessoa> pessoas = pessoaRepository.findAll();
-        return pessoaMapper.toResponseDTOList(pessoas);
+        if(login != null) {
+            specs = specs.and(PessoaSpecs.loginEqual(login));
+        }
+
+        if(status != null) {
+            specs = specs.and(PessoaSpecs.statusEqual(status));
+        }
+
+        List<Pessoa> rawResult = pessoaRepository.findAll(specs);
+        List<RespostaPessoaDTO> result = pessoaMapper.toResponseDTOList(rawResult);
+
+        if(result.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        if(codigoPessoa != null && login != null) {
+            Pessoa pessoaByCodigo = pessoaRepository.findByCodigoPessoa(codigoPessoa);
+            Pessoa pessoaByLogin = pessoaRepository.findByLogin(login);
+            if (!pessoaByCodigo.equals(pessoaByLogin)) {
+                return new ArrayList<>();
+            }
+            return pessoaMapper.toDetailedResponseDTO(pessoaByCodigo);
+        }
+
+        if (codigoPessoa != null) {
+            Pessoa pessoa = pessoaRepository.findByCodigoPessoa(codigoPessoa);
+            return pessoaMapper.toDetailedResponseDTO(pessoa);
+        }
+
+        if (login != null) {
+            Pessoa pessoa = pessoaRepository.findByLogin(login);
+            return pessoaMapper.toResponseDTOList(List.of(pessoa));
+        }
+
+        return result;
+
     }
 
     @Transactional
@@ -132,10 +158,6 @@ public class PessoaService {
         List<Pessoa> pessoas = pessoaRepository.findAll();
         return pessoaMapper.toResponseDTOList(pessoas);
 
-    }
-
-    private List<Pessoa> converterOptionalParaLista(Optional<Pessoa> optionalPessoa) {
-        return optionalPessoa.map(List::of).orElseGet(List::of);
     }
 
 }
